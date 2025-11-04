@@ -61,6 +61,17 @@ Client will run on http://localhost:3000
 
 3. Open your browser and navigate to http://localhost:3000
 
+### Seeding the Database (Optional)
+
+To populate the database with 240 philosophical quotes from 20 famous thinkers:
+
+```bash
+cd server
+npm run seed
+```
+
+This will add sample posts from philosophers and authors including Socrates, Plato, Aristotle, Nietzsche, Kafka, Camus, Virginia Woolf, Rumi, and many more!
+
 ### Usage
 
 1. Enter a username in the top-right corner (stored in localStorage)
