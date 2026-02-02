@@ -1,0 +1,17 @@
+{{define "partials/header_options.html"}}
+<div class="modal-overlay" onclick="this.parentElement.innerHTML=''">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <h3>Choose Header</h3>
+        <div class="header-grid">
+            {{range $i := (slice 1 2 3 4 5 6 7 8 9 10)}}
+            <button class="header-option" hx-post="/api/profile/header" hx-vals='{"header_index": "{{$i}}"}'
+                hx-swap="none"
+                hx-on::after-request="document.querySelector('.profile-header').style.backgroundImage='url(/static/headers/header_{{$i}}.jpg)'; document.getElementById('header-modal').innerHTML='';">
+                <img src="/static/headers/header_{{$i}}.jpg" alt="Header {{$i}}">
+            </button>
+            {{end}}
+        </div>
+        <button class="btn btn-secondary" onclick="document.getElementById('header-modal').innerHTML=''">Cancel</button>
+    </div>
+</div>
+{{end}}

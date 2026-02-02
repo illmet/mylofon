@@ -1,0 +1,28 @@
+{{define "partials/stats.html"}}
+<div class="stats-grid">
+    <div class="stat-card">
+        <span class="stat-value">{{.Stats.TotalUsers}}</span>
+        <span class="stat-label">Total Users</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-value">{{.Stats.TotalPosts}}</span>
+        <span class="stat-label">Total Posts</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-value">{{.Stats.TotalComments}}</span>
+        <span class="stat-label">Comments</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-value">{{.Stats.TotalLikes}}</span>
+        <span class="stat-label">Likes</span>
+    </div>
+    <div class="stat-card highlight">
+        <span class="stat-value">{{.Stats.UsersToday}}</span>
+        <span class="stat-label">New Users Today</span>
+    </div>
+    <div class="stat-card highlight">
+        <span class="stat-value">{{.Stats.PostsToday}}</span>
+        <span class="stat-label">Posts Today</span>
+    </div>
+</div>
+{{end}}

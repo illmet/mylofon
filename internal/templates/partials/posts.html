@@ -1,0 +1,12 @@
+{{define "partials/posts.html"}}
+{{range .Posts}}
+{{template "partials/post.html" (dict "Post" . "User" $.User)}}
+{{end}}
+
+{{if .HasMore}}
+<div class="load-more" hx-get="/?page={{.NextPage}}" hx-trigger="revealed" hx-swap="outerHTML"
+    hx-select="#posts > *, .load-more">
+    <span class="spinner"></span> Loading more...
+</div>
+{{end}}
+{{end}}

@@ -1,0 +1,37 @@
+{{define "partials/post.html"}}
+<article class="post-card {{if .IsReply}}post-reply{{end}}" id="post-{{.Post.ID}}">
+    <a href="/@{{.Post.Author.ClaimID}}" class="post-avatar">
+        <img src="{{avatarURL .Post.Author.AvatarPath}}" alt="" class="avatar-small">
+    </a>
+    <div class="post-body">
+        <div class="post-header">
+            <a href="/@{{.Post.Author.ClaimID}}" class="post-author-info">
+                <span class="author-name">{{if
+                    .Post.Author.Username}}{{.Post.Author.Username}}{{else}}{{.Post.Author.ClaimID}}{{end}}</span>
+                <span class="author-claim">@{{.Post.Author.ClaimID}}</span>
+            </a>
+            <span class="post-dot">·</span>
+            <a href="/post/{{.Post.ID}}" class="post-time">{{timeAgo .Post.CreatedAt}}</a>
+        </div>
+        <a href="/post/{{.Post.ID}}" class="post-content">{{.Post.Content}}</a>
+        <div class="post-actions">
+            {{template "partials/like_button.html" (dict "Post" .Post "User" .User)}}
+            <a href="/post/{{.Post.ID}}" class="action-btn">
+                <svg class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg>
+                <span>{{.Post.ReplyCount}}</span>
+            </a>
+            {{if and .User (eq .User.ID .Post.UserID)}}
+            <button class="action-btn action-delete" hx-delete="/api/posts/{{.Post.ID}}" hx-target="#post-{{.Post.ID}}"
+                hx-swap="outerHTML" hx-confirm="Delete this post?">
+                <svg class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6" />
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                </svg>
+            </button>
+            {{end}}
+        </div>
+    </div>
+</article>
+{{end}}

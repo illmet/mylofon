@@ -1,0 +1,63 @@
+{{define "profile.html"}}
+{{template "base.html" .}}
+{{end}}
+
+{{define "content"}}
+<div class="profile-page">
+    <div class="profile-header" style="background-image: url('{{headerURL .ProfileUser.HeaderIndex}}')">
+        {{if .IsOwner}}
+        <button class="edit-header-btn icon-btn" hx-get="/api/profile/headers" hx-target="#header-modal"
+            hx-swap="innerHTML">
+            ✏️
+        </button>
+        {{end}}
+    </div>
+
+    <div class="profile-info">
+        <div class="avatar-section">
+            <img src="{{avatarURL .ProfileUser.AvatarPath}}" alt="" class="avatar-large" id="profile-avatar">
+            {{if .IsOwner}}
+            <label class="edit-avatar-btn icon-btn">
+                ✏️
+                <input type="file" name="avatar" accept="image/*" class="hidden" hx-post="/api/profile/avatar"
+                    hx-encoding="multipart/form-data" hx-trigger="change" hx-target="#profile-avatar"
+                    hx-swap="outerHTML">
+            </label>
+            {{end}}
+        </div>
+
+        <div class="profile-details">
+            {{if .IsOwner}}
+            <h1 class="profile-name" contenteditable="true" hx-post="/api/profile/username" hx-trigger="blur changed"
+                hx-vals='js:{"username": event.target.innerText}' hx-swap="none">
+                {{if .ProfileUser.Username}}{{.ProfileUser.Username}}{{else}}{{.ProfileUser.ClaimID}}{{end}}
+            </h1>
+            {{else}}
+            <h1 class="profile-name">
+                {{if .ProfileUser.Username}}{{.ProfileUser.Username}}{{else}}{{.ProfileUser.ClaimID}}{{end}}
+            </h1>
+            {{end}}
+            <p class="profile-claim">@{{.ProfileUser.ClaimID}}</p>
+            <p class="profile-uid">User #{{.ProfileUser.ID}}</p>
+        </div>
+
+        {{if .IsOwner}}
+        <form action="/auth/logout" method="post" class="profile-actions">
+            <button type="submit" class="btn btn-secondary">Sign Out</button>
+        </form>
+        {{end}}
+    </div>
+
+    <h2 class="section-title">Posts</h2>
+
+    <div class="posts-list">
+        {{range .Posts}}
+        {{template "partials/post.html" (dict "Post" . "User" $.User)}}
+        {{else}}
+        <p class="empty-state">No posts yet.</p>
+        {{end}}
+    </div>
+</div>
+
+<div id="header-modal" class="modal-container"></div>
+{{end}}

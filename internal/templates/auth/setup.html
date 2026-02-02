@@ -1,0 +1,59 @@
+{{define "auth/setup.html"}}
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Profile - Mylofon</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+</head>
+
+<body class="auth-body">
+    <div class="auth-container setup-container">
+        <h1 class="auth-logo">Almost there!</h1>
+        <p class="auth-subtitle">Set up your profile</p>
+
+        {{if .Error}}
+        <div class="alert alert-error">{{.Error}}</div>
+        {{end}}
+
+        <form action="/auth/setup" method="post" enctype="multipart/form-data" class="auth-form setup-form">
+            <div class="avatar-upload">
+                <img src="/static/default_avatar.svg" alt="" class="avatar-preview" id="avatar-preview">
+                <label class="avatar-upload-btn">
+                    📷 Upload Photo
+                    <input type="file" name="avatar" accept="image/*" class="hidden" onchange="previewAvatar(this)">
+                </label>
+                <small>Optional. Will be resized to 256×256</small>
+            </div>
+
+            <div class="form-group">
+                <label for="username">Display Name</label>
+                <input type="text" id="username" name="username" placeholder="{{.User.ClaimID}}"
+                    value="{{.User.Username}}" maxlength="50">
+                <small>Leave blank to use @{{.User.ClaimID}}</small>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-large">Complete Setup</button>
+        </form>
+
+        <p class="skip-note">You can always update these later in your profile.</p>
+    </div>
+
+    <script>
+        function previewAvatar(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('avatar-preview').src = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+    <script src="/static/js/app.js"></script>
+</body>
+
+</html>
+{{end}}

@@ -1,0 +1,43 @@
+{{define "post.html"}}
+{{template "base.html" .}}
+{{end}}
+
+{{define "content"}}
+<div class="post-page">
+    <a href="/" class="back-link">← Back to timeline</a>
+
+    <article class="post-card post-detail">
+        <div class="post-header">
+            <a href="/@{{.Post.Author.ClaimID}}" class="post-author">
+                <img src="{{avatarURL .Post.Author.AvatarPath}}" alt="" class="avatar-small">
+                <div class="author-info">
+                    <span class="author-name">{{if
+                        .Post.Author.Username}}{{.Post.Author.Username}}{{else}}{{.Post.Author.ClaimID}}{{end}}</span>
+                    <span class="author-claim">@{{.Post.Author.ClaimID}}</span>
+                </div>
+            </a>
+            <time class="post-time">{{timeAgo .Post.CreatedAt}}</time>
+        </div>
+        <div class="post-content post-content-large">{{.Post.Content}}</div>
+        <div class="post-actions">
+            {{template "partials/like_button.html" (dict "Post" .Post "User" .User)}}
+            <span class="action-count">💬 {{.Post.ReplyCount}}</span>
+        </div>
+    </article>
+
+    {{if .User}}
+    <form class="reply-box" hx-post="/api/posts" hx-target="#replies" hx-swap="beforeend"
+        hx-on::after-request="this.reset()">
+        <input type="hidden" name="parent_id" value="{{.Post.ID}}">
+        <textarea name="content" placeholder="Write a reply..." maxlength="280" required></textarea>
+        <button type="submit" class="btn btn-primary">Reply</button>
+    </form>
+    {{end}}
+
+    <div id="replies" class="replies-list">
+        {{range .Replies}}
+        {{template "partials/post.html" (dict "Post" . "User" $.User "IsReply" true)}}
+        {{end}}
+    </div>
+</div>
+{{end}}

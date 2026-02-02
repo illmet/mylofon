@@ -1,0 +1,60 @@
+{{define "auth/danger.html"}}
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚠️ Important - Mylofon</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+</head>
+
+<body class="auth-body">
+    <div class="auth-container danger-zone">
+        <div class="danger-icon">⚠️</div>
+        <h1 class="danger-title">DANGER ZONE</h1>
+        <p class="danger-subtitle">Save this code! It's your ONLY way back in.</p>
+
+        <div class="code-display">
+            <span class="code-label">Your Access Code</span>
+            <span class="code-value" id="access-code">{{.Code}}</span>
+            <button type="button" class="copy-btn" onclick="copyCode()">📋 Copy</button>
+        </div>
+
+        <div class="danger-warnings">
+            <p><strong>⚠️ There is no password recovery.</strong></p>
+            <p><strong>⚠️ There is no email reset.</strong></p>
+            <p><strong>⚠️ If you lose this code, you lose your account forever.</strong></p>
+        </div>
+
+        <form action="/auth/confirm" method="post" class="auth-form">
+            <input type="hidden" name="claim_id" value="{{.ClaimID}}">
+
+            <label class="checkbox-label">
+                <input type="checkbox" name="confirm" required>
+                I have saved my code and understand I cannot recover it
+            </label>
+
+            <button type="submit" class="btn btn-danger btn-large">
+                I Understand, Create My Account
+            </button>
+        </form>
+
+        <a href="/auth/login" class="back-link">← Cancel</a>
+    </div>
+
+    <script>
+        function copyCode() {
+            const code = document.getElementById('access-code').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.textContent = '✓ Copied!';
+                setTimeout(() => btn.textContent = '📋 Copy', 2000);
+            });
+        }
+    </script>
+    <script src="/static/js/app.js"></script>
+</body>
+
+</html>
+{{end}}

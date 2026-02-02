@@ -1,0 +1,20 @@
+{{define "partials/like_button.html"}}
+{{if .User}}
+<button class="action-btn {{if .Post.HasLiked}}liked{{end}}" hx-post="/api/posts/{{.Post.ID}}/like" hx-swap="outerHTML">
+    <svg class="action-icon" viewBox="0 0 24 24" fill="{{if .Post.HasLiked}}currentColor{{else}}none{{end}}"
+        stroke="currentColor" stroke-width="2">
+        <path
+            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+    </svg>
+    <span>{{.Post.LikeCount}}</span>
+</button>
+{{else}}
+<span class="action-btn disabled">
+    <svg class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path
+            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+    </svg>
+    <span>{{.Post.LikeCount}}</span>
+</span>
+{{end}}
+{{end}}

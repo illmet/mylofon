@@ -1,0 +1,50 @@
+{{define "base.html"}}
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{if .Title}}{{.Title}} - {{end}}Mylofon</title>
+    <meta name="description" content="A lightweight social platform">
+    <link rel="stylesheet" href="/static/css/main.css">
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+</head>
+
+<body>
+    <header class="top-bar">
+        <div class="top-bar-left">
+            <button id="theme-toggle" class="icon-btn" title="Toggle theme">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="5" />
+                    <path
+                        d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+                </svg>
+            </button>
+        </div>
+        <a href="/" class="logo">mylofon</a>
+        <div class="top-bar-right">
+            {{if .User}}
+            <div class="user-menu">
+                <form action="/auth/logout" method="post">
+                    <button type="submit" class="btn btn-secondary btn-small">Sign Out</button>
+                </form>
+                <a href="/@{{.User.ClaimID}}" class="avatar-link" title="Profile">
+                    <img src="{{avatarURL .User.AvatarPath}}" alt="Profile" class="avatar-small">
+                </a>
+            </div>
+            {{else}}
+            <a href="/auth/login" class="btn btn-primary btn-small">Sign In</a>
+            {{end}}
+        </div>
+    </header>
+
+    <main class="container">
+        {{template "content" .}}
+    </main>
+
+    <script src="/static/js/app.js"></script>
+</body>
+
+</html>
+{{end}}

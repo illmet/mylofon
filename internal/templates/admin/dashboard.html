@@ -1,0 +1,13 @@
+{{define "admin/dashboard.html"}}
+{{template "base.html" .}}
+{{end}}
+
+{{define "content"}}
+<div class="admin-page">
+    <h1 class="page-title">Admin Dashboard</h1>
+
+    <div id="stats-container" hx-get="/admin/stats" hx-trigger="every 30s" hx-swap="innerHTML">
+        {{template "partials/stats.html" .}}
+    </div>
+</div>
+{{end}}

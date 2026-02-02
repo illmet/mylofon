@@ -1,0 +1,34 @@
+{{define "timeline.html"}}
+{{template "base.html" .}}
+{{end}}
+
+{{define "content"}}
+<div class="timeline-page">
+    {{if .User}}
+    <form class="compose-box" hx-post="/api/posts" hx-target="#posts" hx-swap="afterbegin"
+        hx-on::after-request="this.reset()">
+        <div class="compose-row">
+            <img src="{{avatarURL .User.AvatarPath}}" alt="" class="avatar-small">
+            <textarea name="content" placeholder="What's happening?" maxlength="280" required></textarea>
+        </div>
+        <div class="compose-actions">
+            <span class="char-count">280</span>
+            <button type="submit" class="btn btn-primary">Post</button>
+        </div>
+    </form>
+    {{end}}
+
+    <div id="posts" class="posts-list">
+        {{range .Posts}}
+        {{template "partials/post.html" (dict "Post" . "User" $.User)}}
+        {{end}}
+    </div>
+
+    {{if .HasMore}}
+    <div class="load-more" hx-get="/?page={{.NextPage}}" hx-trigger="revealed" hx-swap="outerHTML"
+        hx-select="#posts > *, .load-more">
+        <span class="spinner"></span> Loading more...
+    </div>
+    {{end}}
+</div>
+{{end}}

@@ -1,0 +1,38 @@
+{{define "auth/login.html"}}
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Mylofon</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+</head>
+
+<body class="auth-body">
+    <div class="auth-container">
+        <h1 class="auth-logo">mylofon</h1>
+        <p class="auth-subtitle">Welcome back, @{{.ClaimID}}</p>
+
+        {{if .Error}}
+        <div class="alert alert-error">{{.Error}}</div>
+        {{end}}
+
+        <form action="/auth/login" method="post" class="auth-form">
+            <input type="hidden" name="claim_id" value="{{.ClaimID}}">
+            <div class="form-group">
+                <label for="code">Your Access Code</label>
+                <input type="password" id="code" name="code" placeholder="Enter your code" pattern="[0-9]{4,32}"
+                    inputmode="numeric" autocomplete="current-password" required autofocus>
+            </div>
+            <button type="submit" class="btn btn-primary btn-large">Sign In</button>
+        </form>
+
+        <a href="/auth/login" class="back-link">← Use a different claim</a>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+
+</html>
+{{end}}
