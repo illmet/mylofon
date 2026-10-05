@@ -1,0 +1,37 @@
+[Unit]
+Description=Mylofon social experiment
+After=network.target
+
+[Service]
+Type=simple
+User=mylofon
+Group=mylofon
+WorkingDirectory=/var/lib/mylofon
+ExecStart=/opt/mylofon/mylofon
+Environment=MYLOFON_BIND=127.0.0.1:3000
+Environment=MYLOFON_DATABASE=sqlite:///var/lib/mylofon/mylofon.db
+Environment=MYLOFON_KEY_FILE=/var/lib/mylofon-keys/account.key
+Environment=MYLOFON_TRUST_PROXY=true
+Environment=MYLOFON_METRICS_BIND=127.0.0.1:9101
+EnvironmentFile=/etc/mylofon.env
+StateDirectory=mylofon mylofon-keys
+StateDirectoryMode=0700
+UMask=0077
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=30
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+MemoryMax=2G
+TasksMax=512
+LimitNOFILE=16384
+
+[Install]
+WantedBy=multi-user.target

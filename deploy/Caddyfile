@@ -1,0 +1,11 @@
+# Replace the domain, then set the same HTTPS origin in /etc/mylofon.env.
+social.example.com {
+    encode gzip
+    request_body {
+        max_size 64KB
+    }
+    reverse_proxy 127.0.0.1:3000 {
+        # Always overwrite this; never forward an untrusted client-supplied IP.
+        header_up X-Real-IP {remote_host}
+    }
+}

@@ -1,0 +1,42 @@
+[package]
+name = "mylofon"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.88"
+license = "MIT"
+
+[dependencies]
+anyhow = "1"
+async-trait = "0.1"
+argon2 = "0.5"
+axum = { version = "0.8", features = ["form", "json", "query", "tokio", "http1"] }
+hex = "0.4"
+hmac = "0.12"
+maud = { version = "0.27", features = ["axum"] }
+metrics = "0.24"
+metrics-exporter-prometheus = { version = "0.18", default-features = false }
+rand = "0.8"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+sqlx = { version = "0.8", default-features = false, features = ["runtime-tokio", "sqlite", "migrate", "macros"] }
+subtle = "2"
+time = "0.3"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "signal", "sync", "time", "net", "fs"] }
+tower = { version = "0.5", features = ["limit", "util"] }
+tower-http = { version = "0.6", features = ["compression-gzip", "limit", "trace", "timeout"] }
+tower-sessions = "0.14"
+tower-sessions-sqlx-store = { version = "0.15", features = ["sqlite"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+url = "2"
+zeroize = "1"
+
+[dev-dependencies]
+http-body-util = "0.1"
+tempfile = "3"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = true

@@ -1,0 +1,16 @@
+/target/
+/data/
+# Local monitoring and verification tools stay out of the public application.
+/deploy/monitoring/
+/tests/
+/examples/bench.rs
+.env
+.env.*
+!.env.example
+*.env
+*.key
+*.db
+*.db-shm
+*.db-wal
+*.db-journal
+*.sqlite*
